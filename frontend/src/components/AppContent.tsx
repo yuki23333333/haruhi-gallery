@@ -64,7 +64,7 @@ const AppContent: React.FC = () => {
   return (
     <>
       <motion.div
-        className="min-h-screen relative"
+        className="min-h-screen relative overflow-x-hidden"
         variants={contentVariants}
         initial="initial"
         animate="animate"
@@ -104,53 +104,57 @@ const AppContent: React.FC = () => {
           </div>
         )}
         {/* Header */}
-        <header className="pt-12 pb-8 px-6">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        <header className="pt-8 sm:pt-12 pb-4 sm:pb-8 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2 sm:gap-4">
               <WhiteCard padding="sm" className="inline-block">
-                <h1 className="text-2xl font-bold text-apple-text tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-bold text-apple-text tracking-tight">
                   SOS 团
                 </h1>
               </WhiteCard>
 
               {/* Navigation Links */}
-              <nav className="flex gap-2">
+              <nav className="flex gap-1.5 sm:gap-2">
                 <AppleButton
                   variant={location.pathname === '/' ? 'primary' : 'secondary'}
-                  size="md"
+                  size="sm"
                   onClick={() => navigate('/')}
                 >
                   画廊
                 </AppleButton>
                 <AppleButton
                   variant={location.pathname === '/music' ? 'primary' : 'secondary'}
-                  size="md"
+                  size="sm"
                   onClick={() => navigate('/music')}
                 >
-                  HipHop
+                  Music
                 </AppleButton>
               </nav>
             </div>
 
             {/* User Info & Login/Logout */}
-            <WhiteCard padding="md" className="px-6 py-3 flex items-center gap-4">
+            <WhiteCard padding="md" className="px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-2 sm:gap-4">
               {user ? (
                 <>
                   <button
                     onClick={() => navigate(`/user/${user.id}`)}
                     className="flex-shrink-0"
                   >
-                    {user?.avatar_url && (
+                    {user?.avatar_url ? (
                       <img
                         src={user.avatar_url}
                         alt={user.username}
                         className="w-10 h-10 rounded-full object-cover border-2 border-white/40 hover:scale-105 transition-transform cursor-pointer"
                       />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white font-semibold border-2 border-white/40 hover:scale-105 transition-transform cursor-pointer">
+                        {user?.username?.charAt(0).toUpperCase() || '?'}
+                      </div>
                     )}
                   </button>
                   <div className="text-right">
                     <p className="text-sm font-semibold text-apple-text">{user?.username}</p>
-                    <p className="text-xs text-apple-text/60">{user?.email}</p>
+                    <p className="text-xs text-apple-text/60 hidden sm:block">{user?.email}</p>
                   </div>
                   <button
                     onClick={logout}
@@ -172,7 +176,7 @@ const AppContent: React.FC = () => {
         </header>
 
         {/* Main Content */}
-        <main className="px-6 pb-12">
+        <main className="px-4 sm:px-6 pb-12">
           <div className="max-w-7xl mx-auto">
             {/* Gallery */}
             <section>
@@ -188,11 +192,11 @@ const AppContent: React.FC = () => {
         {/* Footer */}
         <footer className="px-6 py-8">
           <div className="max-w-7xl mx-auto">
-            <WhiteCard padding="md" className="inline-block">
+            <div className="inline-block bg-white rounded-3xl shadow-sm border border-white/20 p-6">
               <p className="text-sm text-apple-text/50">
                 © 2025 SOS 团画廊. 保留所有权利.
               </p>
-            </WhiteCard>
+            </div>
           </div>
         </footer>
 

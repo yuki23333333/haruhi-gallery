@@ -134,6 +134,38 @@ export const apiClient = {
       throw new Error('An unexpected error occurred');
     }
   },
+
+  // PUT request with FormData (for file uploads)
+  async putFormData<T>(endpoint: string, formData: FormData): Promise<T> {
+    const url = `${API_BASE_URL}${endpoint}`;
+    const token = getAuthToken();
+
+    const headers: HeadersInit = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers,
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
 };
 
 // Specific API methods using the client
@@ -198,7 +230,7 @@ export const api = {
       apiClient.put(API_ENDPOINTS.USER_UPDATE_PROFILE(id), data),
 
     updateCurrentUserProfile: (formData: FormData) =>
-      apiClient.postFormData(API_ENDPOINTS.CURRENT_USER_PROFILE, formData),
+      apiClient.putFormData(API_ENDPOINTS.CURRENT_USER_PROFILE, formData),
   },
 };
 

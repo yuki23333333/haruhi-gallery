@@ -105,7 +105,7 @@ const ImageDetailPage: React.FC = () => {
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = `http://localhost:8081${displayImage.url}`;
+    link.href = `${window.location.origin}${displayImage.url}`;
     link.download = displayImage.title || `image-${displayImage.id}`;
     document.body.appendChild(link);
     link.click();
@@ -187,7 +187,7 @@ const ImageDetailPage: React.FC = () => {
                 {displayImage.url && (
                   <motion.img
                     layoutId={`image-${String(displayImage.id)}`}
-                    src={`http://localhost:8081${displayImage.url}`}
+                    src={displayImage.url}
                     alt={displayImage.title}
                     className="w-full h-auto rounded-2xl shadow-2xl z-50 relative"
                     transition={{

@@ -135,7 +135,7 @@ const MusicPage: React.FC = () => {
 
   return (
     <motion.div
-      className="min-h-screen py-12 px-6 relative"
+      className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 relative"
       variants={pageVariants}
       initial="initial"
       animate="animate"
@@ -154,20 +154,20 @@ const MusicPage: React.FC = () => {
       </div>
 
       {/* Header */}
-      <div className="max-w-7xl mx-auto mb-12 relative z-10">
-        <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto mb-8 sm:mb-12 relative z-10">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           {/* Back Button */}
           <AppleButton
             variant="secondary"
-            size="md"
+            size="sm"
             onClick={() => navigate('/')}
           >
-            ← 返回主页
+            ← 返回
           </AppleButton>
 
           {/* Title Card */}
-          <WhiteCard padding="lg" className="bg-[#F5F5F7]">
-            <h1 className="text-4xl font-bold text-apple-text">
+          <WhiteCard padding="sm" className="bg-[#F5F5F7] sm:p-6 lg:p-8 order-first sm:order-none w-full sm:w-auto text-center">
+            <h1 className="text-3xl sm:text-4xl font-bold text-apple-text">
               HipHop
             </h1>
           </WhiteCard>
@@ -175,10 +175,10 @@ const MusicPage: React.FC = () => {
           {/* Profile Link Card */}
           {user ? (
             <WhiteCard
-              padding="md"
+              padding="sm"
               hover={true}
               onClick={() => navigate(`/user/${user.id}`)}
-              className="flex items-center gap-3 cursor-pointer"
+              className="flex items-center gap-2 sm:gap-3 cursor-pointer"
             >
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 p-0.5">
                 {user.avatar_url ? (
@@ -201,7 +201,7 @@ const MusicPage: React.FC = () => {
               </div>
             </WhiteCard>
           ) : (
-            <WhiteCard padding="md" hover={true} onClick={() => navigate('/auth')}>
+            <WhiteCard padding="sm" hover={true} onClick={() => navigate('/auth')}>
               <p className="text-sm font-semibold text-apple-text">登录 / 注册</p>
             </WhiteCard>
           )}
@@ -212,7 +212,7 @@ const MusicPage: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Loading State - Skeleton */}
         {loading && (
-          <div className="columns-3 md:columns-4 lg:columns-5 gap-2">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-2">
             {Array.from({ length: 10 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))}
@@ -221,7 +221,7 @@ const MusicPage: React.FC = () => {
 
         {/* Main Gallery - CSS Multi-column Masonry Layout */}
         {!loading && images.length > 0 && (
-          <div className="columns-3 md:columns-4 lg:columns-5 gap-2">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-2">
             {images.map((image) => (
               <GalleryCard
                 key={image.id}
@@ -264,7 +264,7 @@ const MusicPage: React.FC = () => {
 
         {/* Loading More Indicator */}
         {loadingMore && (
-          <div className="columns-3 md:columns-4 lg:columns-5 gap-2 mt-2">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-2 mt-2">
             {Array.from({ length: 4 }).map((_, i) => (
               <SkeletonCard key={`loading-${i}`} />
             ))}

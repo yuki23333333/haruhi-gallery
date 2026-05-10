@@ -18,7 +18,7 @@ func IsCategoryAllowed(cat string) bool {
 }
 
 // AdminCategories defines categories that require admin privileges
-var AdminCategories = []string{"hiphop"}
+var AdminCategories = []string{}
 
 // RequiresAdminCheck checks if a category requires admin privileges
 func RequiresAdminCheck(c string) bool {

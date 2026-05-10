@@ -1,0 +1,17 @@
+<!-- 在 ios/App/App/Info.plist 中添加这些配置 -->
+<!-- 这是参考配置，实际文件在 npx cap add ios 后自动生成 -->
+
+<key>NSCameraUsageDescription</key>
+<string>需要访问相机来拍摄和上传图片</string>
+
+<key>NSPhotoLibraryUsageDescription</key>
+<string>需要访问相册来选择和上传图片</string>
+
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>需要保存图片到相册</string>
+
+<key>UIFileSharingEnabled</key>
+<true/>
+
+<key>UISupportsDocumentBrowser</key>
+<true/>

@@ -26,7 +26,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
   activeId,
   onSelect
 }) => {
-  const fullUrl = url.startsWith('http') ? url : `http://localhost:8081${url}`;
+  const fullUrl = url.startsWith('http') ? url : url;
 
   const handleClick = () => {
     if (onSelect) {

@@ -354,7 +354,7 @@ const UserProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-6 relative">
+    <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 relative">
       {/* Layer Z-0: Atmospheric Background - FIXED */}
       <div
         className="
@@ -366,6 +366,22 @@ const UserProfilePage: React.FC = () => {
         {/* White overlay */}
         <div className="absolute inset-0 bg-white/8" />
       </div>
+
+      {/* Back Button */}
+      <motion.div
+        className="max-w-6xl mx-auto mb-6 relative z-10"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.1, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      >
+        <AppleButton
+          variant="secondary"
+          size="sm"
+          onClick={() => navigate(-1)}
+        >
+          ← 返回
+        </AppleButton>
+      </motion.div>
 
       {/* Main Content with Page Entry Animation */}
       <motion.div

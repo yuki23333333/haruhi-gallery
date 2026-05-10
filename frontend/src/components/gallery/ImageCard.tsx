@@ -12,7 +12,7 @@ interface ImageCardProps {
 }
 
 const ImageCard: React.FC<ImageCardProps> = ({ url, title, id, index, imageData }) => {
-  const fullUrl = url.startsWith('http') ? url : `http://localhost:8081${url}`;
+  const fullUrl = url.startsWith('http') ? url : url;
   const { setActiveImage } = useActiveImage();
 
   const handleClick = () => {

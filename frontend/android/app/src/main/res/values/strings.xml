@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SOS 团</string>
+    <string name="title_activity_main">SOS 团</string>
+    <string name="package_name">com.haruhigallery.app</string>
+    <string name="custom_url_scheme">com.haruhigallery.app</string>
+</resources>

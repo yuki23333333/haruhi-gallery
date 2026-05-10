@@ -7,16 +7,29 @@ import ImageDetailPage from '../pages/ImageDetailPage';
 import MusicPage from '../pages/MusicPage';
 import AppContent from './AppContent';
 
-// Page variants - ONLY control background, don't affect shared elements
+// Page variants - smooth slide from right (iOS-style push navigation)
 const pageVariants = {
   initial: {
     opacity: 0,
+    x: 60,
   },
   animate: {
     opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 350,
+      damping: 30,
+      mass: 0.6,
+    },
   },
   exit: {
     opacity: 0,
+    x: -40,
+    transition: {
+      duration: 0.2,
+      ease: [0.32, 0.72, 0, 1],
+    },
   },
 };
 

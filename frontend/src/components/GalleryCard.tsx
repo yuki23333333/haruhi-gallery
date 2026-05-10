@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../contexts/ToastContext';
@@ -30,6 +30,32 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
   const { showToast } = useToast();
   const { user } = useAuth();
   const { setActiveImage } = useActiveImage();
+
+  // Image loading state
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Handle cached images where onLoad fires before React attaches the handler
+  useEffect(() => {
+    setImageLoaded(false);
+    setImageError(false);
+  }, [image.url]);
+
+  const handleImageLoad = () => setImageLoaded(true);
+  const handleImageError = () => setImageError(true);
+
+  // Check if image was already loaded (browser cache) after mount
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete) {
+      if (img.naturalWidth > 0) {
+        setImageLoaded(true);
+      } else {
+        setImageError(true);
+      }
+    }
+  });
 
   // Global like state from Zustand
   const { likedByMap, syncImageLikes, toggleLike } = useLikeStore();
@@ -124,28 +150,42 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
         }}
         transition={{ type: "spring", stiffness: 150, damping: 28 }}
         onClick={handleHipHopClick}
-        className="group cursor-pointer relative mb-2 z-10 break-inside-avoid"
+        className="group cursor-pointer relative mb-3 z-10 inline-block w-full"
         style={{
-          pointerEvents: isHidden ? 'none' : 'auto'
+          pointerEvents: isHidden ? 'none' : 'auto',
+          breakInside: 'avoid-column',
+          pageBreakInside: 'avoid'
         }}
       >
         {/* Image Container - Square with rounded corners */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100 aspect-square shadow-xl">
-          {image.url ? (
-            <motion.img
-              layoutId={`image-${String(image.id)}`}
-              data-image-id={image.id}
-              src={`http://localhost:8081${image.url}`}
-              alt={extractedSongTitle?.songTitle || image.title}
-              className="w-full h-full object-cover absolute inset-0"
-              transition={{
-                type: "spring",
-                stiffness: 150,  // 更快的过渡
-                damping: 28,      // 略高的阻尼
-                mass: 1.2         // 更轻的质量
-              }}
-              style={{ opacity: isHidden ? 0 : 1, visibility: 'visible' }}
-            />
+          {image.url && !imageError ? (
+            <>
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100 animate-pulse" />
+              )}
+              <motion.img
+                ref={imgRef}
+                layoutId={`image-${String(image.id)}`}
+                data-image-id={image.id}
+                src={image.url}
+                alt={extractedSongTitle?.songTitle || image.title}
+                className="w-full h-full object-cover absolute inset-0"
+                transition={{
+                  type: "spring",
+                  stiffness: 150,
+                  damping: 28,
+                  mass: 1.2
+                }}
+                style={{
+                  visibility: 'visible',
+                  opacity: imageLoaded ? 1 : 0,
+                  transition: 'opacity 0.3s ease'
+                }}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+              />
+            </>
           ) : null}
 
           {/* Placeholder for empty or failed images */}
@@ -265,31 +305,43 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
           setTimeout(() => navigate(`/image/${image.id}`), 50);
         }
       }}
-      className="group cursor-pointer relative mb-2 z-10 break-inside-avoid"
+      className="group cursor-pointer relative mb-3 z-10 inline-block w-full"
       style={{
-        pointerEvents: isHidden ? 'none' : 'auto'
+        pointerEvents: isHidden ? 'none' : 'auto',
+        breakInside: 'avoid-column',
+        pageBreakInside: 'avoid'
       }}
     >
       {/* Image Container - Photo on Glass Effect */}
       <div className="relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-xl border-none shadow-xl">
-        {image.url ? (
+        {/* Skeleton placeholder while loading */}
+        {!imageLoaded && !imageError && image.url && (
+          <div className="bg-gray-200 animate-pulse" style={{ aspectRatio: '4/3' }} />
+        )}
+        {/* Actual image */}
+        {image.url && !imageError && (
           <motion.img
+            ref={imgRef}
             layoutId={`image-${String(image.id)}`}
             data-image-id={image.id}
-            src={`http://localhost:8081${image.url}`}
+            src={image.url}
             alt={image.title}
-            className="w-full h-auto object-cover block relative"
+            className="w-full h-auto block rounded-2xl"
             transition={{
               type: "spring",
-              stiffness: 150,  // 更快的过渡
-              damping: 28,      // 略高的阻尼
-              mass: 1.2         // 更轻的质量
+              stiffness: 150,
+              damping: 28,
+              mass: 1.2
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHidden ? 0 : 1 }}
-            style={{ visibility: 'visible' }}
+            style={{
+              visibility: 'visible',
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'opacity 0.3s ease'
+            }}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
           />
-        ) : null}
+        )}
 
         {/* Placeholder for empty or failed images */}
         {(!image.url || image.url.trim() === '') && (

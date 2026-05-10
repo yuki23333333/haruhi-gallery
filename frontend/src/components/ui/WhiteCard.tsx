@@ -25,7 +25,7 @@ const WhiteCard: React.FC<WhiteCardProps> = ({
 
   return (
     <motion.div
-      whileHover={hover ? { scale: 1.01 } : {}}
+      whileHover={hover ? { scale: 1.01 } : undefined}
       transition={{ duration: 0.2 }}
       onClick={onClick}
       className={`

@@ -40,7 +40,7 @@ const ImageDetailModal: React.FC<ImageDetailModalProps> = ({
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = `http://localhost:8081${image.url}`;
+    link.href = `${window.location.origin}${image.url}`;
     link.download = image.title || `image-${image.id}`;
     document.body.appendChild(link);
     link.click();
@@ -118,7 +118,7 @@ const ImageDetailModal: React.FC<ImageDetailModalProps> = ({
                 >
                   <motion.img
                     layoutId={`image-${String(image.id)}`}
-                    src={`http://localhost:8081${image.url}`}
+                    src={image.url}
                     alt={image.title}
                     className="max-h-[80vh] w-auto object-contain rounded-2xl shadow-2xl"
                     transition={{

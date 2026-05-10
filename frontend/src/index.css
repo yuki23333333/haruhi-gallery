@@ -22,10 +22,73 @@
     -moz-osx-font-smoothing: grayscale;
     font-rendering: optimizeLegibility;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    will-change: scroll-position;
   }
 
   html {
     scroll-behavior: smooth;
+    height: 100%;
+    overflow: auto;
+  }
+
+  /* Performance optimizations for smooth scrolling */
+  img,
+  video {
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Smooth column transitions */
+  [class*="columns-"] {
+    column-fill: balance;
+  }
+
+  /* Tablet and mobile optimizations */
+  @media (min-width: 640px) and (max-width: 1024px) {
+    body {
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Fix column layout on tablets */
+    .columns-1,
+    .columns-2,
+    .columns-3 {
+      column-gap: 0.75rem;
+    }
+  }
+
+  /* Prevent image overflow in columns */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Fix touch scrolling on iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  /* Improve scroll performance */
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    overflow-x: hidden;
+    will-change: scroll-position;
+  }
+
+  /* Optimize animations */
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      animation-duration: 0.2s;
+      animation-fill-mode: both;
+    }
   }
 }
 

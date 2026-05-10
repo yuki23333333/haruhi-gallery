@@ -17,7 +17,7 @@ function AppContent() {
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-[#F2F2F2] to-[#D1D8C5]" />
 
       {/* Content Container - Transparent background, allows natural scrolling */}
-      <div className="relative w-full min-h-screen">
+      <div className="relative w-full min-h-screen overflow-x-hidden">
         <AnimatedRoutes />
       </div>
 

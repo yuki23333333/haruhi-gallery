@@ -38,7 +38,11 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ image, onClose }) => {
   // Prevent body scroll when overlay is open
   useEffect(() => {
     if (image) {
+      // Store original overflow value
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      // Also prevent touch scrolling on body
+      document.body.style.touchAction = 'none';
       setShowPlayer(false); // Reset player state when image changes
 
       // Sync image data to global store
@@ -53,13 +57,17 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ image, onClose }) => {
           likes: image.likes
         });
       }
-    } else {
-      document.body.style.overflow = 'unset';
-    }
 
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+      return () => {
+        // Restore original overflow value
+        document.body.style.overflow = originalOverflow || '';
+        document.body.style.touchAction = '';
+      };
+    } else {
+      // Ensure overflow is restored when no image
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
   }, [image, user, syncImageLikes]);
 
   // Get current like status and count from global store
@@ -94,7 +102,7 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ image, onClose }) => {
 
   if (!image) return null;
 
-  const fullUrl = image.url.startsWith('http') ? image.url : `http://localhost:8081${image.url}`;
+  const fullUrl = image.url.startsWith('http') ? image.url : image.url;
   const isMusic = image.category === 'hiphop';
 
   // Prepare iframe HTML for music player
