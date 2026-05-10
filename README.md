@@ -2,6 +2,7 @@
 
 全栈图片与音乐分享平台，支持图片上传、网易云音乐嵌入、用户系统、点赞关注等社交功能。
 <img width="2552" height="1405" alt="image" src="https://github.com/user-attachments/assets/a3ad1d94-1f59-47db-9268-666d70ddc27e" />
+![Uploading image.png…]()
 
 ## 技术栈
 
